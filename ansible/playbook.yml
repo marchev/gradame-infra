@@ -33,6 +33,9 @@
   - name: create dev group
     group: name={{ dev_group_name }} state=present
 
+  - name: make dev sudo
+    lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ dev_group_name }}' line='%{{ dev_group_name }} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+
   - name: create dev users
     user: name={{ item }} state=present shell=/bin/bash group={{ dev_group_name }} groups=docker
     with_items: "{{ dev_users }}"
