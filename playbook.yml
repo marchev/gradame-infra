@@ -5,8 +5,8 @@
     docker_key_id: 58118E89F3A912897C070ADBF76221572C52609D
     docker_apt_repo: 'deb https://apt.dockerproject.org/repo debian-jessie main'
     dev_group_name: dev
-    dev_users:
-      - marchev
+  vars_files:
+    - ./vars/users.yml
   remote_user: root
 
   tasks:
@@ -38,8 +38,8 @@
 
   - name: create dev users
     user: name={{ item }} state=present shell=/bin/bash group={{ dev_group_name }} groups=docker
-    with_items: "{{ dev_users }}"
+    with_items: "{{ users }}"
 
   - name: configure with github authorized keys
     authorized_key: user={{ item }} key=https://github.com/{{ item }}.keys
-    with_items: "{{ dev_users }}"
+    with_items: "{{ users }}"
