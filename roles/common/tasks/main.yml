@@ -1,0 +1,8 @@
+---
+- name: install prerequisites
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - python-apt
+    - apt-transport-https
+    - git
+    - zsh

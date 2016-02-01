@@ -1,45 +1,9 @@
 - hosts: build
 
-  vars:
-    docker_keyserver: 'hkp://p80.pool.sks-keyservers.net:80'
-    docker_key_id: 58118E89F3A912897C070ADBF76221572C52609D
-    docker_apt_repo: 'deb https://apt.dockerproject.org/repo debian-jessie main'
-    dev_group_name: dev
   vars_files:
     - ./vars/users.yml
   remote_user: root
 
-  tasks:
-  - name: install prerequisites
-    apt: pkg={{ item }} state=latest
-    with_items:
-      - python-apt
-      - apt-transport-https
-      - git
-      - zsh
-
-  - name: add docker apt key
-    apt_key: keyserver={{ docker_keyserver }} id={{ docker_key_id }} state=present
-
-  - name: add docker apt repo
-    apt_repository: repo={{ docker_apt_repo }} state=present
-
-  - name: install docker-engine
-    apt: pkg=docker-engine state=present
-
-  - name: make sure docker service is started
-    service: name=docker state=started
-
-  - name: create dev group
-    group: name={{ dev_group_name }} state=present
-
-  - name: make dev sudo
-    lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ dev_group_name }}' line='%{{ dev_group_name }} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
-
-  - name: create dev users
-    user: name={{ item }} state=present shell=/bin/bash group={{ dev_group_name }} groups=docker
-    with_items: "{{ users }}"
-
-  - name: configure with github authorized keys
-    authorized_key: user={{ item }} key=https://github.com/{{ item }}.keys
-    with_items: "{{ users }}"
+  roles:
+    - { role: docker }
+    - { role: devserver, group: "dev", other_groups: "docker" }
