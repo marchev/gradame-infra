@@ -1,0 +1,9 @@
+---
+- name: run jenkins server
+  docker:
+    name: gradame_ci
+    image: jenkins
+    state: started
+    ports:
+      - "8080:8080"
+      - "50000:50000"

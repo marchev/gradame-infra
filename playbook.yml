@@ -7,3 +7,4 @@
   roles:
     - { role: docker }
     - { role: devserver, group: "dev", other_groups: "docker" }
+    - { role: jenkins }
