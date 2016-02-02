@@ -10,5 +10,12 @@
 - name: create docker systemd drop-in directory
   file: path=/etc/systemd/system/docker.service.d state=directory
 
-- name: make sure docker service is started
-  service: name=docker state=started
+- name: copy docker.config file
+  copy: src=docker.config dest=/etc/systemd/system/docker.service.d/docker.conf owner=root group=root mode=0644
+  notify:
+  - systemctl daemon-reload
+  - restart docker
+
+- name: enable docker service
+  service: name=docker state=started enabled=yes
+
