@@ -6,3 +6,4 @@
     - apt-transport-https
     - git
     - zsh
+    - tree
