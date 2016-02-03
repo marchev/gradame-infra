@@ -7,3 +7,11 @@
     ports:
       - "8080:8080"
       - "50000:50000"
+
+- name: configure jenkins in nginx
+  template: src=sites/build.grada.me.j2 dest=/etc/nginx/sites-available/build.grada.me owner=root group=root mode=0644
+
+- name: create configuration symlink in nginx
+  file: src=/etc/nginx/sites-available/build.grada.me dest=/etc/nginx/sites-enabled/build.grada.me state=link
+  notify:
+    - reload nginx
