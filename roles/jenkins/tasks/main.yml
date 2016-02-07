@@ -4,6 +4,7 @@
     name: gradame_ci
     image: jenkins
     state: started
+    restart_policy: always
     ports:
       - "8080:8080"
       - "50000:50000"
