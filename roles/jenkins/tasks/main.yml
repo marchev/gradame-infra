@@ -2,7 +2,7 @@
 - name: run jenkins server
   docker:
     name: gradame_ci
-    image: jenkins
+    image: gradame/jenkins
     state: started
     restart_policy: always
     ports:
