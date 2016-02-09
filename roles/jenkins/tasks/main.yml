@@ -1,4 +1,17 @@
 ---
+- name: copy docker files to server
+  copy: src=./ dest={{ docker_tmp_dir }}
+
+- name: template out jenkins security setup groovy script to server
+  template: src=config/setup-security.groovy.j2 dest={{ docker_tmp_dir }}/config/setup-security.groovy
+
+- name: build jenkins server docker image
+  docker_image:
+    path: "{{ docker_tmp_dir }}"
+    name: gradame/jenkins
+  notify:
+    - cleanup temp dir
+
 - name: run jenkins server
   docker:
     name: gradame_ci

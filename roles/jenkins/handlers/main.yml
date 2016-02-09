@@ -1,0 +1,3 @@
+---
+- name: cleanup temp dir
+  file: path={{ docker_tmp_dir }} state=absent

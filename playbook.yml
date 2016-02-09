@@ -1,5 +1,13 @@
 - hosts: build
 
+  vars_prompt:
+    - name: jenkins_admin_user
+      prompt: "jenkins admin user"
+      default: "admin"
+    - name: jenkins_admin_pass
+      prompt: "jenkins admin password"
+      private: yes
+
   vars_files:
     - ./vars/users.yml
   remote_user: root
