@@ -17,3 +17,12 @@
     - { role: devserver, group: "dev", other_groups: "docker" }
     - { role: jenkins }
     - { role: nginx }
+
+- hosts: repo
+
+  remote_user: root
+
+  roles:
+    - { role: docker }
+    - { role: nginx }
+    - { role: artifactory }
