@@ -13,7 +13,14 @@
 
 ### Подготовка
 1. Инсталирайте последната версия на `ansible` като следвате стъпките описани тук: <http://docs.ansible.com/ansible/intro_installation.html>
-2. *TODO: SSH конфигурация @ *`~/.ssh/config`
+2. За улеснение можем да конфигурираме връзката със сървърите посредством файла `~/.ssh/config`, т.к. `ansible` използва `ssh` за връзка със сървърите, които конфигурираме. Примерно съдържание на `~/.ssh/config`:
+
+    ```
+    Host *grada.me
+    	HostName grada.me
+    	Port 9999
+    	IdentityFile /path/to/obshtestvo.bg/id_rsa
+    ```
 
 ### Конфигурация
 1. Създайте файл с име `hosts` като копирате `hosts.template`:
