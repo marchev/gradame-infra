@@ -1,0 +1,17 @@
+---
+- name: run nexus server
+  docker:
+    name: gradame_repo
+    image: sonatype/nexus:oss
+    state: started
+    restart_policy: always
+    ports:
+      - "8081:8081"
+
+- name: configure nexus proxting in nginx
+  template: src=sites/repo.grada.me.j2 dest=/etc/nginx/sites-available/repo.grada.me owner=root group=root mode=0644
+
+- name: enable nexus proxying nginx
+  file: src=/etc/nginx/sites-available/repo.grada.me dest=/etc/nginx/sites-enabled/repo.grada.me state=link
+  notify:
+    - reload nginx

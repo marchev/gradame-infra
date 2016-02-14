@@ -4,7 +4,7 @@ import hudson.security.*
 def instance = Jenkins.getInstance()
 
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-hudsonRealm.createAccount("{{ jenkins_admin_user }}","{{ jenkins_admin_pass }}")
+hudsonRealm.createAccount("{{ admin_user }}","{{ admin_pass }}")
 instance.setSecurityRealm(hudsonRealm)
 instance.save()
 
