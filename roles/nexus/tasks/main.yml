@@ -15,3 +15,23 @@
   file: src=/etc/nginx/sites-available/repo.grada.me dest=/etc/nginx/sites-enabled/repo.grada.me state=link
   notify:
     - reload nginx
+
+- name: wait until nexus starts
+  shell: curl --head --silent http://repo.grada.me/service/local/status
+  register: result
+  until: result.stdout.find("200 OK") != -1
+  retries: 4
+  delay: 15
+
+- name: configure nexus admin password
+  uri:
+    url: http://repo.grada.me/service/local/users_changepw
+    method: POST
+    user: admin
+    password: admin123
+    body: "{\"data\" : { \"userId\" : \"admin\", \"oldPassword\" : \"admin123\" , \"newPassword\" : \"admin123\" } }"
+    force_basic_auth: yes
+    status_code: 202
+    body_format: json
+ 
+
