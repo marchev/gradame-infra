@@ -29,9 +29,11 @@
     method: POST
     user: admin
     password: admin123
-    body: "{\"data\" : { \"userId\" : \"admin\", \"oldPassword\" : \"admin123\" , \"newPassword\" : \"admin123\" } }"
+    body: "{{ users_changepw | to_nice_json }}"
     force_basic_auth: yes
     status_code: 202
     body_format: json
+  tags:
+    - debug
  
 

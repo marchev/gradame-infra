@@ -1,0 +1,6 @@
+---
+users_changepw:
+  data:
+    userId: "admin"
+    oldPassword: "admin123"
+    newPassword: "admin123"
